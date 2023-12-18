@@ -1,6 +1,7 @@
 #pragma once
 
-#include <iostream>
+#include "disposable.h"
+#include <map>
 
 #ifdef MY_PLATFORM_LINUX
 #include <errno.h>
@@ -27,6 +28,8 @@
 #define _sock_close(sockfd) ::close(sockfd)
 #define _sock_is_blocked() (errno == EAGAIN || errno == 0)
 #elif defined(MY_PLATFORM_WINDOWS)
+#define FD_SETSIZE 1024
+
 #include <Ws2tcpip.h>
 #include <windows.h>
 #define _sock_init()                                                           \
@@ -46,12 +49,21 @@
 #define _sock_is_blocked() (WSAGetLastError() == WSAEWOULDBLOCK)
 #endif
 
-inline int GetListenBacklog() {
-  int backlog = 10;
-#ifndef WIN32
-  char *ptr;
-  if ((ptr = getenv("LISTENQ")) != nullptr)
-    backlog = atoi(ptr);
-#endif
-  return backlog;
-}
+class ConnectObj;
+
+class Network : public IDisposable {
+public:
+  void Dispose() override;
+  bool Select();
+
+  SOCKET GetSocket() const { return _masterSocket; }
+
+protected:
+  static void SetSocketOpt(SOCKET socket);
+  SOCKET CreateSocket();
+
+protected:
+  SOCKET _masterSocket{INVALID_SOCKET};
+  std::map<SOCKET, ConnectObj *> _connects;
+  fd_set readfds, writefds, exceptfds;
+};
