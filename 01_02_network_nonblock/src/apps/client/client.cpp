@@ -1,37 +1,24 @@
+#include "client_socket.h"
 #include <iostream>
-
-#include "network/network.h"
+#include <list>
 
 int main(int argc, char **argv) {
-  _sock_init();
-  SOCKET socket = ::socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
-  if (socket == INVALID_SOCKET) {
-    std::cout << "::socket failed. err:" << _sock_err() << std::endl;
-    return 1;
+  std::list<std::shared_ptr<ClientSocket>> clients;
+  for (int index = 0; index < 3; index++) {
+    clients.push_back(std::make_shared<ClientSocket>(index));
   }
+  while (!clients.empty()) {
+    auto iter = clients.begin();
+    while (iter != clients.end()) {
+      auto pClient = (*iter);
+      if (pClient->IsRun()) {
+        ++iter;
+        continue;
+      }
 
-  sockaddr_in addr;
-  memset(&addr, 0, sizeof(sockaddr_in));
-  addr.sin_family = AF_INET;
-  addr.sin_port = htons(2233);
-  ::inet_pton(AF_INET, "127.0.0.1", &addr.sin_addr.s_addr);
-
-  if (::connect(socket, (struct sockaddr *)&addr, sizeof(sockaddr)) < 0) {
-    std::cout << "::connect failed. err:" << _sock_err() << std::endl;
-    return 1;
+      pClient->Stop();
+      iter = clients.erase(iter);
+    }
   }
-
-  std::string msg = "ping";
-  ::send(socket, msg.c_str(), msg.length(), 0);
-
-  std::cout << "::send." << msg.c_str() << std::endl;
-
-  char buffer[1024];
-  memset(&buffer, 0, sizeof(buffer));
-  ::recv(socket, buffer, sizeof(buffer), 0);
-  std::cout << "::recv." << buffer << std::endl;
-
-  _sock_close(socket);
-  _sock_exit();
   return 0;
 }
