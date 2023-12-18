@@ -1,0 +1,21 @@
+# Xmake cache
+.xmake/
+build/
+
+# MacOS Cache
+.DS_Store
+
+# ImGui setting
+imgui.ini
+
+# CMake cache
+cmake-*
+CMakeLists.txt
+
+install/
+
+# IDE settings
+.idea/
+compile_commands.json
+
+.cache/
