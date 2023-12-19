@@ -41,9 +41,9 @@ void Packet::CleanBuffer() {
   _bufferSize = 0;
 }
 
-char *Packet::GetBuffer() const { return _buffer; }
+char* Packet::GetBuffer() const { return _buffer; }
 
-void Packet::AddBuffer(const char *pBuffer, const unsigned int size) {
+void Packet::AddBuffer(const char* pBuffer, const unsigned int size) {
   while (GetEmptySize() < size) {
     ReAllocBuffer();
   }

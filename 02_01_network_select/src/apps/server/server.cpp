@@ -3,7 +3,7 @@
 
 #include "network/network.h"
 
-int main(int argc, char **argv) {
+int main(int argc, char** argv) {
   _sock_init();
   SOCKET socket = ::socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
   if (socket == INVALID_SOCKET) {
@@ -55,7 +55,8 @@ int main(int argc, char **argv) {
 
         _sock_close(one);
         iter = sockets.erase(iter);
-      } else {
+      }
+      else {
         ++iter;
       }
     }

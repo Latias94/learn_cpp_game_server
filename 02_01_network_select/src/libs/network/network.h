@@ -52,18 +52,18 @@
 class ConnectObj;
 
 class Network : public IDisposable {
-public:
-  void Dispose() override;
-  bool Select();
+  public:
+    void Dispose() override;
+    bool Select();
 
-  SOCKET GetSocket() const { return _masterSocket; }
+    SOCKET GetSocket() const { return _masterSocket; }
 
-protected:
-  static void SetSocketOpt(SOCKET socket);
-  SOCKET CreateSocket();
+  protected:
+    static void SetSocketOpt(SOCKET socket);
+    SOCKET CreateSocket();
 
-protected:
-  SOCKET _masterSocket{INVALID_SOCKET};
-  std::map<SOCKET, ConnectObj *> _connects;
-  fd_set readfds, writefds, exceptfds;
+  protected:
+    SOCKET _masterSocket{INVALID_SOCKET};
+    std::map<SOCKET, ConnectObj *> _connects;
+    fd_set readfds, writefds, exceptfds;
 };

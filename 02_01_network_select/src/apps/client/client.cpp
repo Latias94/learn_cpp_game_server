@@ -2,7 +2,7 @@
 #include <iostream>
 #include <list>
 
-int main(int argc, char **argv) {
+int main(int argc, char** argv) {
   std::list<std::shared_ptr<ClientSocket>> clients;
   for (int index = 0; index < 3; index++) {
     clients.push_back(std::make_shared<ClientSocket>(index));

@@ -9,15 +9,17 @@ void Buffer::ReAllocBuffer(unsigned dataLength) {
   if (_bufferSize >= MAX_SIZE) {
     std::cout << "Buffer::Realloc except!! " << std::endl;
   }
-  char *tempBuffer = new char[_bufferSize + ADDITIONAL_SIZE];
+  char* tempBuffer = new char[_bufferSize + ADDITIONAL_SIZE];
   unsigned int _newEndIndex;
   if (_beginIndex < _endIndex) {
     ::memcpy(tempBuffer, _buffer + _beginIndex, _endIndex - _beginIndex);
     _newEndIndex = _endIndex - _beginIndex;
-  } else {
+  }
+  else {
     if (_beginIndex == _endIndex && dataLength <= 0) {
       _newEndIndex = 0;
-    } else {
+    }
+    else {
       // 1.先COPY尾部
       ::memcpy(tempBuffer, _buffer + _beginIndex, _bufferSize - _beginIndex);
       _newEndIndex = _bufferSize - _beginIndex;

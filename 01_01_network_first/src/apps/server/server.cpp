@@ -2,7 +2,7 @@
 
 #include "network/network.h"
 
-int main(int argc, char **argv) {
+int main(int argc, char** argv) {
   std::cout << "hello server!" << std::endl;
 
   _sock_init();

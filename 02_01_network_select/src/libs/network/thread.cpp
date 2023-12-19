@@ -23,4 +23,5 @@ void Thread::Dispose() {
     _thread.join();
 }
 
-void Thread::Update() {}
+void Thread::Update() {
+}

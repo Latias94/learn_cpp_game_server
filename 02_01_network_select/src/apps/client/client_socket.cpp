@@ -1,4 +1,6 @@
 #include "client_socket.h"
+
+#include <iostream>
 #include "network/network.h"
 #include <random>
 #include <string>

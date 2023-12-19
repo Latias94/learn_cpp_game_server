@@ -19,21 +19,21 @@ struct PacketHead {
 #endif
 
 class Packet : public Buffer {
-public:
-  Packet();
-  Packet(const int msgId);
-  ~Packet();
+  public:
+    Packet();
+    Packet(const int msgId);
+    ~Packet();
 
-  void Dispose() override;
-  void CleanBuffer();
+    void Dispose() override;
+    void CleanBuffer();
 
-  char *GetBuffer() const;
-  void AddBuffer(const char *pBuffer, unsigned int size);
-  unsigned short GetDataLength() const;
-  int GetMsgId() const;
-  void FillData(unsigned int size);
-  void ReAllocBuffer();
+    char* GetBuffer() const;
+    void AddBuffer(const char* pBuffer, unsigned int size);
+    unsigned short GetDataLength() const;
+    int GetMsgId() const;
+    void FillData(unsigned int size);
+    void ReAllocBuffer();
 
-private:
-  int _msgId;
+  private:
+    int _msgId;
 };
