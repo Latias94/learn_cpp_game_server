@@ -2,7 +2,7 @@
 #include "disposable.h"
 
 // 追加大小
-#define ADDITIONAL_SIZE 10 // 1024 * 128
+#define ADDITIONAL_SIZE 10 // or use 1024 * 128
 
 // 最大缓冲
 #define MAX_SIZE (1024 * 1024) // 1M

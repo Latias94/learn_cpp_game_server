@@ -18,6 +18,7 @@ struct PacketHead {
 #define DEFAULT_PACKET_BUFFER_SIZE (1024 * 10)
 #endif
 
+// 一旦生成，数据不会变，除非被重用或被销毁
 class Packet : public Buffer {
   public:
     Packet();

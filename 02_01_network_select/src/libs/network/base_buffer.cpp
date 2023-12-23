@@ -5,7 +5,7 @@
 unsigned Buffer::GetEmptySize() { return _bufferSize - _endIndex; }
 
 void Buffer::ReAllocBuffer(unsigned dataLength) {
-  // 如果缓冲区超过最大缓冲值，可能有异常，直接关闭socket
+  // 如果缓冲区超过最大缓冲值，可能有异常，直接关闭 socket
   if (_bufferSize >= MAX_SIZE) {
     std::cout << "Buffer::Realloc except!! " << std::endl;
   }
@@ -31,7 +31,7 @@ void Buffer::ReAllocBuffer(unsigned dataLength) {
       }
     }
   }
-  // 修改数据
+
   _bufferSize += ADDITIONAL_SIZE;
 
   delete[] _buffer;
