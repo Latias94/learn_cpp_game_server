@@ -19,10 +19,10 @@ xmake
 xmake r 02_01_network_select_app_server
 ```
 
-### Run client
+### Run robot
 
 ```shell
-xmake r 02_01_network_select_app_client
+xmake r 02_01_network_select_app_robot
 ```
 
 ## Result
@@ -31,12 +31,31 @@ Server:
 
 ```shell
 ❯ xmake r 02_01_network_select_app_server
-
+accept:0        recv count:0    send count:0
+accept:1        recv count:0    send count:0
+recv size:504 msg:xgmhetbuspxhmscmvzqmueuofaucuorxdwojfcrpficadukgcnzufvydovhlsbvkzeztfekzwhumckrqrvwrafbggytbybhlomxitwbneiqeixwmpkycfiltgqsvvvnvcgvbpsaspiklmjvexlhynwitejvdypnjpnmkbnvchkygffcbhotvbkkzasbmlhqzjxqeqveobkkqukvdhgkwvvmhgqgktyssgnghodqkmjtvdmjxgoflofokuoovffwbhzktshoswvhutkguuksikddvwykcpfdosilatpurqzfwkstorqpcqselzguxqzwfukbbzguzphjgvnfzzwewtccaskzfmanlmcxfmjnjfearnilmqiqidynzpiowxanvhvensmmahweuhewrwpgyaqrtktujvgtghyzqusihtgikajzrcaienphcswwmasbsifrounlargkwwxmqiiwiwkgkxsidfmurjgrsqrnwzqochjakkoxyopyd
+accept:1        recv count:1    send count:1
+recv size:153 msg:cutvdwxamdggqmdnikwyvglswlpnqdmdcvlhjxeejdbtptskdhacapncqrwhkgaydetupnmywvvuzgywocemdbnydyrakvzxyvzqijpddiuenxmkfocnzxobsfqvwtfrbtzlsucxuuntzfucjlmlfslmy
+accept:1        recv count:2    send count:2
+close socket:232
 ```
 
-Client:
+Robot:
 
 ```shell
-❯ xmake r 02_01_network_select_app_client
-
+# 开启 1 个线程，每个线程发送 2 条数据。
+❯ xmake r 02_01_network_select_app_robots 1 2
+online socket num:1     completed:0%
+send. size:504 msg:xgmhetbuspxhmscmvzqmueuofaucuorxdwojfcrpficadukgcnzufvydovhlsbvkzeztfekzwhumckrqrvwrafbggytbybhlomxitwbneiqeixwmpkycfiltgqsvvvnvcgvbpsaspiklmjvexlhynwitejvdypnjpnmkbnvchkygffcbhotvbkkzasbmlhqzjxqeqveobkkqukvdhgkwvvmhgqgktyssgnghodqkmjtvdmjxgoflofokuoovffwbhzktshoswvhutkguuksikddvwykcpfdosilatpurqzfwkstorqpcqselzguxqzwfukbbzguzphjgvnfzzwewtccaskzfmanlmcxfmjnjfearnilmqiqidynzpiowxanvhvensmmahweuhewrwpgyaqrtktujvgtghyzqusihtgikajzrcaienphcswwmasbsifrounlargkwwxmqiiwiwkgkxsidfmurjgrsqrnwzqochjakkoxyopyd
+recv. size:504
+send. size:153 msg:cutvdwxamdggqmdnikwyvglswlpnqdmdcvlhjxeejdbtptskdhacapncqrwhkgaydetupnmywvvuzgywocemdbnydyrakvzxyvzqijpddiuenxmkfocnzxobsfqvwtfrbtzlsucxuuntzfucjlmlfslmy
+recv. size:153
+close socket:232
+online socket num:0     completed:100%
 ```
+
+## Diagrams
+
+![server](../misc/images/02_01_server.png)
+
+![client](../misc/images/02_01_client.png)

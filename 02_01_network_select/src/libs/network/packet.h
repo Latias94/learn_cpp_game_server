@@ -22,7 +22,7 @@ struct PacketHead {
 class Packet : public Buffer {
   public:
     Packet();
-    Packet(const int msgId);
+    Packet(int msgId);
     ~Packet();
 
     void Dispose() override;

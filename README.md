@@ -10,4 +10,8 @@ Install [XMake](https://xmake.io/#/guide/installation).
 xmake # build all
 ```
 
-See `README.md` in each directory for more details. For example, see [01_01_network_first/README.md](01_01_network_first/README.md).
+## Demos
+
+- [01_01_network_first](01_01_network_first) 阻塞
+- [01_02_network_nonblock](01_02_network_nonblock) 非阻塞
+- [02_01_network_select](02_01_network_select) select 模型

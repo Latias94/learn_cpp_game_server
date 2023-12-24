@@ -1,6 +1,6 @@
-target("02_01_network_select_app_client")
+target("02_01_network_select_app_robots")
     set_kind("binary")
-    add_files("src/apps/client/**.cpp")
+    add_files("src/tools/robots/**.cpp")
     add_deps("02_01_network_select_network")
 
 target("02_01_network_select_app_server")

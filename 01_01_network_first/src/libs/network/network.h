@@ -36,7 +36,7 @@
 
 inline int GetListenBacklog() {
   int backlog = 10;
-#ifndef WIN32
+#ifndef MY_PLATFORM_WINDOWS
   char *ptr;
   if ((ptr = getenv("LISTENQ")) != nullptr)
     backlog = atoi(ptr);

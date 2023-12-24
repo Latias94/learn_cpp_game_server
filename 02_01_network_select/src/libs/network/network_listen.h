@@ -5,7 +5,7 @@
 
 class NetworkListen : public Network {
   public:
-    bool Listen(std::string ip, int port);
+    bool Listen(const std::string& ip, int port);
     bool Update();
 
   protected:

@@ -173,6 +173,7 @@ void SendNetworkBuffer::AddPacket(Packet* pPacket) {
 
   //std::cout << "send buffer::Realloc. _bufferSize:" << _bufferSize << std::endl;
 
+  // 保存 packet 的数据到缓冲区中
   // 1.整体长度
   MemcpyToBuffer(reinterpret_cast<char *>(&totalSize), sizeof(TotalSizeType));
 
