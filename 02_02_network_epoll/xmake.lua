@@ -15,3 +15,6 @@ target("02_02_network_epoll_network")
     if is_plat("windows") then
         add_syslinks("Ws2_32")
     end
+    if is_plat("linux") then
+        add_defines("EPOLL", {public = true})
+    end

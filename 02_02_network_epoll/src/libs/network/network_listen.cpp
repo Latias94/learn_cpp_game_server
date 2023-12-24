@@ -31,6 +31,13 @@ bool NetworkListen::Listen(const std::string&ip, int port) {
     return false;
   }
 
+#ifdef EPOLL
+	std::cout << "epoll model" << std::endl;
+	InitEpoll();
+#else
+	std::cout << "select model" << std::endl;
+#endif
+
   return true;
 }
 
@@ -45,20 +52,32 @@ int NetworkListen::Accept() {
       return rs;
 
     SetSocketOpt(socket);
-
-    ConnectObj* pConnectObj = new ConnectObj(this, socket);
-    _connects.insert(std::make_pair(socket, pConnectObj));
+    CreateConnectObj(socket);
 
     ++rs;
   }
 }
 
-bool NetworkListen::Update() {
-  bool br = Select();
+#ifdef EPOLL
 
-  if (FD_ISSET(_masterSocket, &readfds)) {
-    Accept();
-  }
+void NetworkListen::Update() {
+	Epoll();
 
-  return br;
+	if (_mainSocketEventIndex >= 0)
+	{
+		Accept();
+	}
 }
+
+#else
+
+void NetworkListen::Update() {
+  Select();
+
+	if (FD_ISSET(_masterSocket, &readfds))
+	{
+		Accept();
+	}
+}
+
+#endif

@@ -9,7 +9,7 @@ class Packet;
 class NetworkConnector : public Network {
   public:
     bool Connect(std::string ip, int port);
-    bool Update();
+    void Update();
 
     bool HasRecvData();
     Packet* GetRecvPacket();
@@ -19,6 +19,7 @@ class NetworkConnector : public Network {
 
   private:
     ConnectObj* GetConnectObj();
+    void TryCreateConnectObj();
 
   private:
     std::string _ip;

@@ -8,6 +8,8 @@ Select 模型兼容两种系统，但 Epoll 只能在 **Linux** 系统下运行�
 
 Epoll 和 Select 需要解决的问题是一样的：网络连接何时可以读写，何时出错。牢记这个关键就会发现 Epoll 其实并不复杂。
 
+Up 这里使用 Windows + WSL2 Ubuntu 测试。
+
 ### Build all
 
 ```shell
@@ -33,14 +35,27 @@ Server:
 
 ```shell
 ❯ xmake r 02_02_network_epoll_app_server
-
+epoll model
+accept:0        recv count:0    send count:0
+accept:1        recv count:0    send count:0
+recv size:471 msg:cwthzgjkigyttmdsjfghbfazgvgqmusgehfdhpzctrbfbesvvwnkcxsgmybpunqfymidkvwdrzpwalgahlhexnndwuqtygisnjmfszwqrgewjgqpnlqsznqxjbmszfbqohlocgdntprxrvxqmtxulwrmihbuwayxorcmrrrrkbyzlynzcbqfgnndkyyeyeqdevwdnomqdoicxpqihiujzbjrvijbgcebqriqpagsyqxvmaqhgnqjjkuohmildqvtulpswjrkpypehoxmeblkwrugtuzyfhlmgavzeebilvomeflsacvepkykoeaziacjwpsgvzymfgowodebiellpevgrawtxtvxztkodulrmdebufprfocgeuvatscpdqgigchvrbqxshzywdjvarnumagybmggkraapuwoujaqzcwffvbpkvaiqswbhumkwrwkfiadlieyodemzljwjcffkro
+accept:1        recv count:1    send count:1
+recv size:275 msg:enehurchjbtymxdgtitcnzuctererbqhgmvcxpcfpmwuwwevgcgndcreyhdhvqndlorcwfshvrdjkvwrwjgbgdfuclexlgpxyeqxddqasnrtugsfprcldoloxfjbfqqmvbncfvxpnkbyhwpbarglleryqloejradbbpakutmmrpmesotdjqwacgwldiywdnzozkbtjtolkcaokahdcspgzbxcqcclfdixtjmjnxstblcrqfsngvrvkmclcwovnryefrnvnfnbcmmtbyvooo
+accept:1        recv count:2    send count:2
+close socket:8
 ```
 
 Robot:
 
 ```shell
 ❯ xmake r 02_02_network_epoll_app_robots 1 2
-
+online socket num:1     completed:0%
+send. size:471 msg:cwthzgjkigyttmdsjfghbfazgvgqmusgehfdhpzctrbfbesvvwnkcxsgmybpunqfymidkvwdrzpwalgahlhexnndwuqtygisnjmfszwqrgewjgqpnlqsznqxjbmszfbqohlocgdntprxrvxqmtxulwrmihbuwayxorcmrrrrkbyzlynzcbqfgnndkyyeyeqdevwdnomqdoicxpqihiujzbjrvijbgcebqriqpagsyqxvmaqhgnqjjkuohmildqvtulpswjrkpypehoxmeblkwrugtuzyfhlmgavzeebilvomeflsacvepkykoeaziacjwpsgvzymfgowodebiellpevgrawtxtvxztkodulrmdebufprfocgeuvatscpdqgigchvrbqxshzywdjvarnumagybmggkraapuwoujaqzcwffvbpkvaiqswbhumkwrwkfiadlieyodemzljwjcffkro
+recv. size:471
+send. size:275 msg:enehurchjbtymxdgtitcnzuctererbqhgmvcxpcfpmwuwwevgcgndcreyhdhvqndlorcwfshvrdjkvwrwjgbgdfuclexlgpxyeqxddqasnrtugsfprcldoloxfjbfqqmvbncfvxpnkbyhwpbarglleryqloejradbbpakutmmrpmesotdjqwacgwldiywdnzozkbtjtolkcaokahdcspgzbxcqcclfdixtjmjnxstblcrqfsngvrvkmclcwovnryefrnvnfnbcmmtbyvooo
+recv. size:275
+close socket:6
+online socket num:0     completed:100%
 ```
 
 ## References

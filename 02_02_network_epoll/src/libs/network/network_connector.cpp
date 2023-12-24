@@ -26,6 +26,13 @@ bool NetworkConnector::Connect(std::string ip, int port) {
   if (_masterSocket == INVALID_SOCKET)
     return false;
 
+#ifdef EPOLL
+	//std::cout << "epoll model" << std::endl;
+	InitEpoll();
+#else
+	//std::cout << "select model" << std::endl;
+#endif
+
   sockaddr_in addr;
   memset(&addr, 0, sizeof(sockaddr_in));
   addr.sin_family = AF_INET;
@@ -35,46 +42,95 @@ bool NetworkConnector::Connect(std::string ip, int port) {
   int rs = ::connect(_masterSocket, (struct sockaddr *)&addr, sizeof(sockaddr));
   if (rs == 0) {
     // 成功
-    ConnectObj* pConnectObj = new ConnectObj(this, _masterSocket);
-    _connects.insert(std::make_pair(_masterSocket, pConnectObj));
+    CreateConnectObj(_masterSocket);
   }
 
   return true;
 }
 
-bool NetworkConnector::Update() {
-  const bool br = Select();
-  if (!IsConnected()) {
-    // 有异常出现
-    if (FD_ISSET(_masterSocket, &exceptfds)) {
-      std::cout << "connect except. socket:" << _masterSocket << " re connect." << std::endl;
+void NetworkConnector::TryCreateConnectObj()
+{
+	int optval = -1;
+	socklen_t optlen = sizeof(optval);
+	int rs = ::getsockopt(_masterSocket, SOL_SOCKET, SO_ERROR, (char*)(&optval), &optlen);
+	if (rs == 0 && optval == 0)
+	{
+		CreateConnectObj(_masterSocket);
+	}
+	else
+	{
+		std::cout << "connect failed. socket:" << _masterSocket << std::endl;
+		Dispose();
+	}
+}
 
-      // 异常，关闭当前 Socket，重新连接
-      Dispose();
-      Connect(_ip, _port);
-      return br;
-    }
 
-    if (FD_ISSET(_masterSocket, &readfds) || FD_ISSET(_masterSocket, &writefds)) {
-      int optval = -1;
-      socklen_t optlen = sizeof(optval);
-      const int rs = ::getsockopt(_masterSocket, SOL_SOCKET, SO_ERROR, (char *)(&optval), &optlen);
-      if (rs == 0 && optval == 0) {
-        ConnectObj* pConnectObj = new ConnectObj(this, _masterSocket);
-        _connects.insert(std::make_pair(_masterSocket, pConnectObj));
-      }
-      else {
-        std::cout << "connect failed. socket:" << _masterSocket << " re connect." << std::endl;
+#ifdef EPOLL
 
-        // 异常，关闭当前 Socket，重新连接
-        Dispose();
-        Connect(_ip, _port);
-      }
-    }
-  }
+void NetworkConnector::Update()
+{
+	// 如果断线，重新连接
+	if (_masterSocket == INVALID_SOCKET)
+	{
+		if (!Connect(_ip, _port))
+			return;
+
+		std::cout << "re connect. socket:" << _masterSocket << std::endl;
+	}
+
+	Epoll();
+
+	if (IsConnected())
+		return;
+
+	if (_mainSocketEventIndex >= 0)
+	{
+		int fd = _events[_mainSocketEventIndex].data.fd;
+		if (fd != _masterSocket)
+			return;
+
+		// connect成功，会触发IN事件
+		if (_events[_mainSocketEventIndex].events & EPOLLIN || _events[_mainSocketEventIndex].events & EPOLLOUT)
+		{
+			TryCreateConnectObj();
+		}
+	}
+}
+
+#else
+
+void NetworkConnector::Update() {
+  // 如果断线，重新连接
+	if (_masterSocket == INVALID_SOCKET)
+	{
+		if (!Connect(_ip, _port))
+			return;
+
+		std::cout << "re connect. socket:" << _masterSocket << std::endl;
+	}
+
+  if (!IsConnected())
+	{
+		// 有异常出现
+		if (FD_ISSET(_masterSocket, &exceptfds))
+		{
+			std::cout << "connect except. socket:" << _masterSocket << " re connect." << std::endl;
+
+			// 关闭当前 socket，重新 connect
+			Dispose();
+			return;
+		}
+
+		if (FD_ISSET(_masterSocket, &readfds) || FD_ISSET(_masterSocket, &writefds))
+		{
+			TryCreateConnectObj();
+		}
+	}
 
   return br;
 }
+
+#endif
 
 bool NetworkConnector::HasRecvData() {
   const int size = _connects.size();
