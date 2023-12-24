@@ -59,3 +59,7 @@ online socket num:0     completed:100%
 ![server](../misc/images/02_01_server.png)
 
 ![client](../misc/images/02_01_client.png)
+
+## References
+
+- [你管这破玩意叫 IO 多路复用？](https://mp.weixin.qq.com/s/YdIdoZ_yusVWza1PU7lWaw)
