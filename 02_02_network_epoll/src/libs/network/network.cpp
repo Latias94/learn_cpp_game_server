@@ -3,6 +3,10 @@
 #include "connect_obj.h"
 #include <iostream>
 
+#ifndef MY_PLATFORM_WINDOWS
+#include <netinet/tcp.h>
+#endif
+
 void Network::Dispose() {
   auto iter = _connects.begin();
   while (iter != _connects.end()) {

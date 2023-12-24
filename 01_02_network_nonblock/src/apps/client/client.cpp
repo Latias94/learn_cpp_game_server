@@ -1,6 +1,7 @@
 #include "client_socket.h"
 #include <iostream>
 #include <list>
+#include <memory>
 
 int main(int argc, char** argv) {
   std::list<std::shared_ptr<ClientSocket>> clients;
