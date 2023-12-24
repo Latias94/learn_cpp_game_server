@@ -22,7 +22,8 @@ xmake r 02_01_network_select_app_server
 ### Run robot
 
 ```shell
-xmake r 02_01_network_select_app_robot
+# 开启 1 个线程，每个线程发送 2 条数据。
+xmake r 02_01_network_select_app_robot 1 2
 ```
 
 ## Result
@@ -43,7 +44,6 @@ close socket:232
 Robot:
 
 ```shell
-# 开启 1 个线程，每个线程发送 2 条数据。
 ❯ xmake r 02_01_network_select_app_robots 1 2
 online socket num:1     completed:0%
 send. size:504 msg:xgmhetbuspxhmscmvzqmueuofaucuorxdwojfcrpficadukgcnzufvydovhlsbvkzeztfekzwhumckrqrvwrafbggytbybhlomxitwbneiqeixwmpkycfiltgqsvvvnvcgvbpsaspiklmjvexlhynwitejvdypnjpnmkbnvchkygffcbhotvbkkzasbmlhqzjxqeqveobkkqukvdhgkwvvmhgqgktyssgnghodqkmjtvdmjxgoflofokuoovffwbhzktshoswvhutkguuksikddvwykcpfdosilatpurqzfwkstorqpcqselzguxqzwfukbbzguzphjgvnfzzwewtccaskzfmanlmcxfmjnjfearnilmqiqidynzpiowxanvhvensmmahweuhewrwpgyaqrtktujvgtghyzqusihtgikajzrcaienphcswwmasbsifrounlargkwwxmqiiwiwkgkxsidfmurjgrsqrnwzqochjakkoxyopyd
