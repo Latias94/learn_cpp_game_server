@@ -35,7 +35,7 @@ bool NetworkListen::Listen(const std::string&ip, int port) {
 	std::cout << "epoll model" << std::endl;
 	InitEpoll();
 #else
-	std::cout << "select model" << std::endl;
+  std::cout << "select model" << std::endl;
 #endif
 
   return true;
@@ -74,10 +74,9 @@ void NetworkListen::Update() {
 void NetworkListen::Update() {
   Select();
 
-	if (FD_ISSET(_masterSocket, &readfds))
-	{
-		Accept();
-	}
+  if (FD_ISSET(_masterSocket, &readfds)) {
+    Accept();
+  }
 }
 
 #endif

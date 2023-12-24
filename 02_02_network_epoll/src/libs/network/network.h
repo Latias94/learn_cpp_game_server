@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include "disposable.h"
 #include <map>
@@ -58,15 +58,15 @@
 class ConnectObj;
 
 class Network : public IDisposable {
-public:
-  void Dispose() override;
+  public:
+    void Dispose() override;
 
-  SOCKET GetSocket() const { return _masterSocket; }
+    SOCKET GetSocket() const { return _masterSocket; }
 
-protected:
-  static void SetSocketOpt(SOCKET socket);
-  SOCKET CreateSocket();
-  void CreateConnectObj(SOCKET socket);
+  protected:
+    static void SetSocketOpt(SOCKET socket);
+    SOCKET CreateSocket();
+    void CreateConnectObj(SOCKET socket);
 
 #ifdef EPOLL
   void InitEpoll();
@@ -75,16 +75,16 @@ protected:
   void ModifyEvent(int epollfd, int fd, int flag);
   void DeleteEvent(int epollfd, int fd);
 #else
-  bool Select();
+    bool Select();
 #endif
 
-protected:
-  // 不论是连接类还是监听类，都有一个_masterSocket
-  // 连接时用来存储连接的Socket，监听时存储监听Socket
-  SOCKET _masterSocket{INVALID_SOCKET};
-  // 对于监听类来说，有无数个ConnectObj类，保存每个连接的数据
-  // 对于连接类来说，这里只有一个ConnectObj类
-  std::map<SOCKET, ConnectObj *> _connects;
+  protected:
+    // 不论是连接类还是监听类，都有一个_masterSocket
+    // 连接时用来存储连接的Socket，监听时存储监听Socket
+    SOCKET _masterSocket{INVALID_SOCKET};
+    // 对于监听类来说，有无数个ConnectObj类，保存每个连接的数据
+    // 对于连接类来说，这里只有一个ConnectObj类
+    std::map<SOCKET, ConnectObj *> _connects;
 
 #ifdef EPOLL
 #define MAX_CLIENT 5120
@@ -93,7 +93,7 @@ protected:
   int _epfd;
   int _mainSocketEventIndex{-1};
 #else
-  // 3个fd_set集合，分别用来存储可读、可写、异常的描述符
-  fd_set readfds, writefds, exceptfds;
+    // 3个fd_set集合，分别用来存储可读、可写、异常的描述符
+    fd_set readfds, writefds, exceptfds;
 #endif
 };

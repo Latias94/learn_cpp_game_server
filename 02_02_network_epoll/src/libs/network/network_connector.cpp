@@ -1,4 +1,4 @@
-#include "network_connector.h"
+﻿#include "network_connector.h"
 
 #include <iostream>
 #include "connect_obj.h"
@@ -30,7 +30,7 @@ bool NetworkConnector::Connect(std::string ip, int port) {
 	//std::cout << "epoll model" << std::endl;
 	InitEpoll();
 #else
-	//std::cout << "select model" << std::endl;
+  //std::cout << "select model" << std::endl;
 #endif
 
   sockaddr_in addr;
@@ -48,22 +48,18 @@ bool NetworkConnector::Connect(std::string ip, int port) {
   return true;
 }
 
-void NetworkConnector::TryCreateConnectObj()
-{
-	int optval = -1;
-	socklen_t optlen = sizeof(optval);
-	int rs = ::getsockopt(_masterSocket, SOL_SOCKET, SO_ERROR, (char*)(&optval), &optlen);
-	if (rs == 0 && optval == 0)
-	{
-		CreateConnectObj(_masterSocket);
-	}
-	else
-	{
-		std::cout << "connect failed. socket:" << _masterSocket << std::endl;
-		Dispose();
-	}
+void NetworkConnector::TryCreateConnectObj() {
+  int optval = -1;
+  socklen_t optlen = sizeof(optval);
+  int rs = ::getsockopt(_masterSocket, SOL_SOCKET, SO_ERROR, (char *)(&optval), &optlen);
+  if (rs == 0 && optval == 0) {
+    CreateConnectObj(_masterSocket);
+  }
+  else {
+    std::cout << "connect failed. socket:" << _masterSocket << std::endl;
+    Dispose();
+  }
 }
-
 
 #ifdef EPOLL
 
@@ -101,33 +97,27 @@ void NetworkConnector::Update()
 
 void NetworkConnector::Update() {
   // 如果断线，重新连接
-	if (_masterSocket == INVALID_SOCKET)
-	{
-		if (!Connect(_ip, _port))
-			return;
+  if (_masterSocket == INVALID_SOCKET) {
+    if (!Connect(_ip, _port))
+      return;
 
-		std::cout << "re connect. socket:" << _masterSocket << std::endl;
-	}
+    std::cout << "re connect. socket:" << _masterSocket << std::endl;
+  }
 
-  if (!IsConnected())
-	{
-		// 有异常出现
-		if (FD_ISSET(_masterSocket, &exceptfds))
-		{
-			std::cout << "connect except. socket:" << _masterSocket << " re connect." << std::endl;
+  if (!IsConnected()) {
+    // 有异常出现
+    if (FD_ISSET(_masterSocket, &exceptfds)) {
+      std::cout << "connect except. socket:" << _masterSocket << " re connect." << std::endl;
 
-			// 关闭当前 socket，重新 connect
-			Dispose();
-			return;
-		}
+      // 关闭当前 socket，重新 connect
+      Dispose();
+      return;
+    }
 
-		if (FD_ISSET(_masterSocket, &readfds) || FD_ISSET(_masterSocket, &writefds))
-		{
-			TryCreateConnectObj();
-		}
-	}
-
-  return br;
+    if (FD_ISSET(_masterSocket, &readfds) || FD_ISSET(_masterSocket, &writefds)) {
+      TryCreateConnectObj();
+    }
+  }
 }
 
 #endif

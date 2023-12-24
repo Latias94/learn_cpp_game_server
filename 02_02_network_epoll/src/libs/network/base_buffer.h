@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "disposable.h"
 
 // 追加大小

@@ -1,4 +1,4 @@
-#include "network_buffer.h"
+﻿#include "network_buffer.h"
 
 #include "packet.h"
 #include <cstdlib>

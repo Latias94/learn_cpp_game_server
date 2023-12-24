@@ -2,9 +2,9 @@
 
 #include "connect_obj.h"
 #include <iostream>
-#include <unistd.h>
 
 #ifndef MY_PLATFORM_WINDOWS
+#include <unistd.h>
 #include <netinet/tcp.h>
 #endif
 
@@ -35,14 +35,23 @@ void Network::Dispose() {
 void Network::SetSocketOpt(SOCKET socket) {
   // 1.端口关闭后马上重新启用
   bool isReuseaddr = true;
-  setsockopt(socket, SOL_SOCKET, SO_REUSEADDR, (SetsockOptType)&isReuseaddr,
+  setsockopt(socket,
+             SOL_SOCKET,
+             SO_REUSEADDR,
+             (SetsockOptType)&isReuseaddr,
              sizeof(isReuseaddr));
 
   // 2.发送、接收timeout
   int netTimeout = 3000; // 1000 = 1秒
-  setsockopt(socket, SOL_SOCKET, SO_SNDTIMEO, (SetsockOptType)&netTimeout,
+  setsockopt(socket,
+             SOL_SOCKET,
+             SO_SNDTIMEO,
+             (SetsockOptType)&netTimeout,
              sizeof(netTimeout));
-  setsockopt(socket, SOL_SOCKET, SO_RCVTIMEO, (SetsockOptType)&netTimeout,
+  setsockopt(socket,
+             SOL_SOCKET,
+             SO_RCVTIMEO,
+             (SetsockOptType)&netTimeout,
              sizeof(netTimeout));
 
 #ifndef MY_PLATFORM_WINDOWS
@@ -87,7 +96,7 @@ SOCKET Network::CreateSocket() {
 }
 
 void Network::CreateConnectObj(SOCKET socket) {
-  ConnectObj *pConnectObj = new ConnectObj(this, socket);
+  ConnectObj* pConnectObj = new ConnectObj(this, socket);
   _connects.insert(std::make_pair(socket, pConnectObj));
 
 #ifdef EPOLL
@@ -200,7 +209,8 @@ bool Network::Select() {
     // 有要发送的数据
     if (iter->second->HasSendData()) {
       FD_SET(iter->first, &writefds);
-    } else {
+    }
+    else {
       if (_masterSocket == iter->first)
         FD_CLR(_masterSocket, &writefds);
     }
