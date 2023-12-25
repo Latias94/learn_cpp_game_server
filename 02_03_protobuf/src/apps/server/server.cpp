@@ -3,6 +3,7 @@
 #include <iostream>
 #include "network/packet.h"
 #include "network/connect_obj.h"
+#include "network/common.h"
 
 bool Server::DataHandler() {
   for (auto iter = _connects.begin(); iter != _connects.end(); ++iter) {
