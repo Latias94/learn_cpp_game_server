@@ -25,11 +25,28 @@ class Packet : public Buffer {
     Packet(int msgId);
     ~Packet();
 
+    template<class ProtoClass>
+    ProtoClass ParseToProto() {
+      ProtoClass proto;
+      proto.ParsePartialFromArray(GetBuffer(), GetDataLength());
+      return proto;
+    }
+
+    template<class ProtoClass>
+    void SerializeToBuffer(ProtoClass&protoClase) {
+      auto total = protoClase.ByteSizeLong();
+      while (GetEmptySize() < total) {
+        ReAllocBuffer();
+      }
+
+      protoClase.SerializePartialToArray(GetBuffer(), total);
+      FillData(total);
+    }
+
     void Dispose() override;
     void CleanBuffer();
 
     char* GetBuffer() const;
-    void AddBuffer(const char* pBuffer, unsigned int size);
     unsigned short GetDataLength() const;
     int GetMsgId() const;
     void FillData(unsigned int size);

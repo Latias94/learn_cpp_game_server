@@ -29,8 +29,8 @@ void Server::HandlerOne(ConnectObj* pConnectObj) {
       break;
     }
 
-    std::string msg(pPacket->GetBuffer(), pPacket->GetDataLength());
-    std::cout << "recv size:" << msg.length() << " msg:" << msg.c_str() << std::endl;
+    auto protoMsg = pPacket->ParseToProto<Proto::TestMsg>();
+    std::cout << "revc msg. msg id:" << pPacket->GetMsgId() << " msg:" << protoMsg.msg() << " index:" << protoMsg.index() << std::endl;
     pConnectObj->SendPacket(pPacket);
 
     ++_recvMsgCount;

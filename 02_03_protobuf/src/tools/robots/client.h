@@ -1,6 +1,5 @@
 #pragma once
 
-#include <list>
 #include "network/network_connector.h"
 #include <random>
 #include <thread>

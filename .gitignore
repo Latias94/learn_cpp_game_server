@@ -19,3 +19,4 @@ install/
 compile_commands.json
 
 .cache/
+vsxmake*/
