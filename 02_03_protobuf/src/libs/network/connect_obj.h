@@ -1,19 +1,19 @@
 #pragma once
 #include "disposable.h"
+#include "network.h"
 
-class Network;
 class RecvNetworkBuffer;
 class SendNetworkBuffer;
 class Packet;
 
 class ConnectObj : public IDisposable {
   public:
-    ConnectObj(Network* pNetWork, int socket);
+    ConnectObj(Network* pNetWork, SOCKET socket);
     ~ConnectObj() override;
 
     void Dispose() override;
 
-    int GetSocket() const { return _socket; }
+    SOCKET GetSocket() const { return _socket; }
     bool HasRecvData() const;
     Packet* GetRecvPacket() const;
     bool Recv() const;
@@ -24,7 +24,7 @@ class ConnectObj : public IDisposable {
 
   protected:
     Network* _pNetWork{nullptr};
-    const int _socket;
+    const SOCKET _socket;
     RecvNetworkBuffer* _recvBuffer{nullptr};
     SendNetworkBuffer* _sendBuffer{nullptr};
 };

@@ -184,7 +184,7 @@ void Network::Epoll() {
 }
 #else
 
-bool Network::Select() {
+void Network::Select() {
   // 初始化所有集合，FD_ZERO 是系统定义的宏，用来清空集合
   FD_ZERO(&readfds);
   FD_ZERO(&writefds);
@@ -225,7 +225,7 @@ bool Network::Select() {
   // 是随机的，最大值即使传到底层也起不了什么作用。
   int nfds = ::select(fdmax + 1, &readfds, &writefds, &exceptfds, &timeout);
   if (nfds <= 0)
-    return true;
+    return;
   // 如果返回值大于0，就表示在3个集合中一定有数据
   // 遍历所有的连接，看看是否有数据改变
   auto iter = _connects.begin();
@@ -261,7 +261,5 @@ bool Network::Select() {
 
     ++iter;
   }
-
-  return true;
 }
 #endif

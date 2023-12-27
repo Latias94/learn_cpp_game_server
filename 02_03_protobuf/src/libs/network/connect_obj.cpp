@@ -5,7 +5,7 @@
 #include "network_buffer.h"
 #include "packet.h"
 
-ConnectObj::ConnectObj(Network* pNetWork, int socket): _pNetWork(pNetWork), _socket(socket) {
+ConnectObj::ConnectObj(Network* pNetWork, SOCKET socket): _pNetWork(pNetWork), _socket(socket) {
   _recvBuffer = new RecvNetworkBuffer(DEFAULT_RECV_BUFFER_SIZE);
   _sendBuffer = new SendNetworkBuffer(DEFAULT_SEND_BUFFER_SIZE);
 }

@@ -3,7 +3,7 @@
 #include "connect_obj.h"
 #include <iostream>
 
-bool NetworkListen::Listen(const std::string&ip, int port) {
+bool NetworkListen::Listen(std::string ip, int port) {
   _masterSocket = CreateSocket();
   if (_masterSocket == INVALID_SOCKET)
     return false;
@@ -32,8 +32,8 @@ bool NetworkListen::Listen(const std::string&ip, int port) {
   }
 
 #ifdef EPOLL
-	std::cout << "epoll model" << std::endl;
-	InitEpoll();
+  std::cout << "epoll model" << std::endl;
+  InitEpoll();
 #else
   std::cout << "select model" << std::endl;
 #endif
@@ -61,12 +61,12 @@ int NetworkListen::Accept() {
 #ifdef EPOLL
 
 void NetworkListen::Update() {
-	Epoll();
+  Epoll();
 
-	if (_mainSocketEventIndex >= 0)
-	{
-		Accept();
-	}
+  if (_mainSocketEventIndex >= 0)
+  {
+    Accept();
+  }
 }
 
 #else

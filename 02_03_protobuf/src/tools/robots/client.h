@@ -16,7 +16,7 @@ class Client : public NetworkConnector {
     std::string GenRandom();
 
   private:
-    int _msgCount;
+    int _msgCount{0};
     int _index{0};
 
     bool _isCompleted{false};

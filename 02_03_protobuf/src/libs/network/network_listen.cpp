@@ -3,7 +3,7 @@
 #include "connect_obj.h"
 #include <iostream>
 
-bool NetworkListen::Listen(const std::string&ip, int port) {
+bool NetworkListen::Listen(std::string ip, int port) {
   _masterSocket = CreateSocket();
   if (_masterSocket == INVALID_SOCKET)
     return false;

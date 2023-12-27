@@ -75,7 +75,7 @@ class Network : public IDisposable {
   void ModifyEvent(int epollfd, int fd, int flag);
   void DeleteEvent(int epollfd, int fd);
 #else
-    bool Select();
+    void Select();
 #endif
 
   protected:

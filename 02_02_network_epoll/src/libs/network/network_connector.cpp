@@ -5,7 +5,7 @@
 #include "packet.h"
 
 bool NetworkConnector::IsConnected() const {
-  return !_connects.empty();
+  return _connects.size() > 0;
 }
 
 ConnectObj* NetworkConnector::GetConnectObj() {
@@ -140,7 +140,7 @@ bool NetworkConnector::HasRecvData() {
 }
 
 Packet* NetworkConnector::GetRecvPacket() {
-  const ConnectObj* pConnect = GetConnectObj();
+  ConnectObj* pConnect = GetConnectObj();
   if (pConnect == nullptr)
     return nullptr;
 
