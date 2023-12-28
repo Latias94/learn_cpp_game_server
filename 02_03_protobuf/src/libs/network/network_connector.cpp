@@ -22,6 +22,9 @@ bool NetworkConnector::Connect(std::string ip, int port) {
   _ip = ip;
   _port = port;
 
+  if (_port == 0 || _ip == "")
+    return false;
+
   _masterSocket = CreateSocket();
   if (_masterSocket == INVALID_SOCKET)
     return false;
@@ -103,6 +106,8 @@ void NetworkConnector::Update() {
 
     std::cout << "re connect. socket:" << _masterSocket << std::endl;
   }
+
+  Select();
 
   if (!IsConnected()) {
     // 有异常出现
