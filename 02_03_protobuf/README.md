@@ -2,6 +2,20 @@
 
 Protobuf 序列化
 
+### Prerequisite
+
+Protoc compiler
+
+It can be downloaded from Github release page: [releases](https://github.com/protocolbuffers/protobuf/releases), or:
+
+```shell
+#window
+scoop install protoc
+
+# ubuntu
+sudo apt install protobuf-compiler unzip
+```
+
 ### Build all
 
 ```shell
